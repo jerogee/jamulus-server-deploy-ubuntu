@@ -86,12 +86,12 @@ export LC_TYPE=en_US.UTF-8
 export NCURSES_NO_UTF8_ACS=1
 
 # Update system packages
-echo Updaten van de aanwezige systeemsoftware ...
+echo $(date +'%H:%M') - Updaten van de aanwezige systeemsoftware ...
 hide_output apt-get update
 apt_get_quiet upgrade
 apt_get_quiet autoremove
 
-echo -n Installeren van software benodigd voor Jamulus server ...
+echo -n $(date +'%H:%M') - Installeren van software benodigd voor Jamulus server ...
 for PACKAGE in build-essential qt5-qmake qtdeclarative5-dev libjack-jackd2-dev qt5-default netfilter-persistent git coreutils unattended-upgrades; do
 	echo -n '.'
 	apt_install ${PACKAGE}
@@ -108,7 +108,7 @@ EOF
 
 # Haal de broncode van Jamulus op (wordt in directory ‘jamulus’ gezet)
 cd ${HOME}
-echo Broncode van Jamulus downloaden ...
+echo $(date +'%H:%M') - Broncode van Jamulus downloaden ...
 if [ -d "jamulus" ]; then
     rm -fr jamulus
 fi
@@ -119,20 +119,19 @@ curl -s https://raw.githubusercontent.com/jerogee/jamulus-server-deploy-ubuntu/m
 cd ${HOME}/jamulus
 
 # Compileer de software
-echo Jamulus compileren [dit duurt ongeveer 2 minuten] ...
+echo $(date +'%H:%M') - Jamulus compileren [dit duurt ongeveer 2 minuten] ...
 hide_output qmake "CONFIG+=nosound" Jamulus.pro
 hide_output make clean
 hide_output make
 
 # Kopieer het compileerde programma naar een centrale locatie, en verzeker dat het kan worden uitgevoerd
-echo Jamulus installeren ...
+echo $(date +'%H:%M') - Jamulus installeren ...
 sudo cp Jamulus /usr/local/bin
 sudo chmod a+x /usr/local/bin/Jamulus
 
-# Maak een account aan zodat Jamulus permanent draait
-hide_output sudo adduser --system --no-create-home jamulus
-
 # Maak het een service
+echo $(date +'%H:%M') - Jamulus als service instellen die automatisch (her)start ...
+hide_output sudo adduser --system --no-create-home jamulus
 cd ${HOME}
 sudo cp jamulus.service /etc/systemd/system/jamulus.service
 hide_output sudo chmod 644 /etc/systemd/system/jamulus.service
@@ -140,12 +139,12 @@ hide_output sudo systemctl start jamulus
 hide_output sudo systemctl enable jamulus
 
 # Open poort 22124 voor Jamulus
-echo Poort 22124 openzetten zodat Jamulus server bereikbaar wordt ...
+echo $(date +'%H:%M') - Poort 22124 openzetten zodat Jamulus server bereikbaar wordt ...
 sudo iptables -A INPUT -p udp -m udp --dport 22124 -j ACCEPT
 sudo iptables -A OUTPUT -p udp -m udp --dport 22124 -j ACCEPT
 sudo netfilter-persistent save
 
-echo Installatiebestanden opruimen
+echo $(date +'%H:%M') - Installatiebestanden opruimen
 rm -fr ${HOME}/jamulus
 rm -f ${HOME}/jamulus.service
 
