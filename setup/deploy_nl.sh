@@ -113,7 +113,7 @@ if [ -d "jamulus" ]; then
     rm -fr jamulus
 fi
 hide_output git clone https://github.com/corrados/jamulus.git
-hide_output curl -s https://raw.githubusercontent.com/jerogee/jamulus-server-deploy-ubuntu/master/setup/jamulus.service > jamulus.service
+curl -s https://raw.githubusercontent.com/jerogee/jamulus-server-deploy-ubuntu/master/setup/jamulus.service > jamulus.service
 
 # Ga naar de directory met de broncode
 cd ${HOME}/jamulus
