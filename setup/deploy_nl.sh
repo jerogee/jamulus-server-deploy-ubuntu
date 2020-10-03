@@ -61,8 +61,9 @@ if [[ $EUID -ne 0 ]]; then
 fi
 
 # Check that we are running on Ubuntu 18.04 LTS (or 18.04.xx).
-if [ "`lsb_release -d | sed 's/.*:\s*//' | sed 's/18\.04\.[0-9]/18.04/' `" != "Ubuntu 18.04 LTS" ]; then
-	echo "Deze Jamulus server installatie is specifiek bedoeld voor Ubuntu 18.04. Op dit systeem draait echter:"
+RELEASE=$(lsb_release -d | sed 's/.*:\s*//' | sed -E 's/([0-9][0-9]\.04)\.[0-9]/\1/')
+if [ "${RELEASE}" != "Ubuntu 18.04 LTS" ] && [ "${RELEASE}" != "Ubuntu 20.04 LTS" ]; then
+	echo "Deze Jamulus server installatie is specifiek bedoeld voor Ubuntu 18.04 of 20.04 LTS. Op dit systeem draait echter:"
 	echo
 	lsb_release -d | sed 's/.*:\s*//'
 	echo
