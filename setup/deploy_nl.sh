@@ -93,7 +93,7 @@ apt_get_quiet upgrade
 apt_get_quiet autoremove
 
 echo -n "$(date +'%H:%M:%S') - Installeren van software benodigd voor Jamulus server ..."
-for PACKAGE in build-essential qt5-qmake qtdeclarative5-dev libjack-jackd2-dev qt5-default netfilter-persistent git coreutils unattended-upgrades; do
+for PACKAGE in build-essential qt5-qmake qttools5-dev-tools qtdeclarative5-dev libjack-jackd2-dev qt5-default netfilter-persistent git coreutils unattended-upgrades; do
 	echo -n '.'
 	apt_install ${PACKAGE}
 done
