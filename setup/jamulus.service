@@ -13,7 +13,7 @@ Nice=-20
 IOSchedulingClass=realtime
 IOSchedulingPriority=0
 
-ExecStart=/usr/local/bin/Jamulus --server --nogui --port 22124
+ExecStart=/usr/local/bin/Jamulus --server --nogui --port 22124 --numchannels 50
 
 Restart=on-failure
 RestartSec=30
